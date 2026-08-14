@@ -1,7 +1,14 @@
 import { NavLink } from "react-router-dom";
 import "./Header.css";
+import { useSelector } from "react-redux";
 
 export default function Header() {
+
+
+  const {user}=useSelector((state) => state.auth)
+
+  
+
   return (
     <nav>
       <div className="container">
@@ -14,8 +21,11 @@ export default function Header() {
             <li>
               <NavLink to="/cart">Cart</NavLink>
             </li>
+            <p>{user && user.username}</p>
             <li>
-              <NavLink to="/login">Login</NavLink>
+              {
+                user?<NavLink to="/login">Logout</NavLink>:<NavLink to="/login">Login</NavLink>
+              }
             </li>
           </ul>
         </div>

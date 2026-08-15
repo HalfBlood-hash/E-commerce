@@ -1,13 +1,20 @@
 import { NavLink } from "react-router-dom";
 import "./Header.css";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { logoutUser } from "../../featrure/auth/authslice";
 
 export default function Header() {
 
 
   const {user}=useSelector((state) => state.auth)
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-  
+  const handleLogout = async () => {
+    await dispatch(logoutUser());
+    navigate("/login");
+  };
 
   return (
     <nav>
@@ -24,7 +31,7 @@ export default function Header() {
             <p>{user && user.username}</p>
             <li>
               {
-                user?<NavLink to="/login">Logout</NavLink>:<NavLink to="/login">Login</NavLink>
+                user ? <button type="button" onClick={handleLogout}>Logout</button> : <NavLink to="/login">Login</NavLink>
               }
             </li>
           </ul>

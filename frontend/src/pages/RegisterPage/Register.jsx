@@ -2,11 +2,12 @@
 
 import React, { useState } from 'react'
 import './Register.css'
-
+import { toast } from "react-toastify";
 
 import { useDispatch, useSelector } from "react-redux";
 
 import { registerUser } from '../../featrure/auth/authslice';
+import { useNavigate } from 'react-router-dom';
 
 export default function 
 () {
@@ -14,7 +15,7 @@ export default function
   const[email,setEmail]=useState("");
   const [password,setPassword]=useState("");
   const [username,setUsername]=useState("");
-
+  const navigate=useNavigate();
   const dispatch=useDispatch();
   const {error,loading } =useSelector((state)=>state.auth)
 
@@ -23,12 +24,19 @@ export default function
       : error?.message || error?.error || "Something went wrong";
 
 
-  const registerFunction=(e)=>{
+  const registerFunction=async(e)=>{
    e.preventDefault();
-    console.log(username,email,password)
-    dispatch(registerUser({
-      username,email,password
-    }))
+   try {
+     console.log(username,email,password)
+     dispatch(registerUser({ username,email,password})).unwrap()
+      
+      toast.success("Registration Successfull Please Login!! ")
+      navigate('/login')
+   } catch (error) {
+     toast.error(
+          error?.message || "Registration failed"
+        );
+   }
   }
   return (
       <>

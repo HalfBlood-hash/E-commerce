@@ -58,7 +58,7 @@ useEffect(()=>{
   return(<>
     <RouterProvider router={router} />
    <ToastContainer
-        position="top-right"
+        position="center"
         autoClose={3000}
         hideProgressBar={false}
         newestOnTop

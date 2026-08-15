@@ -63,7 +63,9 @@ export default function
               {loading ? "Register in..." : "Register"}
               </button>
           </div>
-         
+           <div className='not-user-class'>
+            <a href="/register">Already a user? Login here</a>
+          </div>
           </form>
         </div>
       </div>

@@ -64,6 +64,20 @@ export const getCurrentUser = createAsyncThunk(
     }
 );
 
+export const logoutUser = createAsyncThunk(
+  "auth/logout",
+  async (_, thunkAPI) => {
+    try {
+      const response = await API.post("/logout");
+      return response.data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.response?.data || {
+        message: error.message
+      });
+    }
+  }
+);
+
 
 
 
@@ -122,6 +136,14 @@ const authSlice = createSlice({
         action.payload?.message ||
         action.error?.message ||
         "Login failed";
+      })
+      .addCase(logoutUser.fulfilled, (state) => {
+        state.user = null;
+        state.error = null;
+      })
+      .addCase(logoutUser.rejected, (state) => {
+        // Clear the local session even when the access token has already expired.
+        state.user = null;
       });
 
        

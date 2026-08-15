@@ -8,7 +8,10 @@ import cookieParser from "cookie-parser"
 const app=express()
 
 
-app.use(cors())
+app.use(cors({
+    origin: process.env.CORS_ORIGIN || "http://localhost:3000",
+    credentials: true
+}))
 // get the data from json like when we submit form and set limit 
 app.use(express.json({limit:"10kb"}))
 
@@ -22,5 +25,8 @@ app.use(cookieParser())
 import userRouter from "./routes/user.routes.js"
 
 app.use('/users',userRouter)
+
+import errorHandler from "./middleware/error.middleware.js"
+app.use(errorHandler)
 
 export {app}

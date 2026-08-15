@@ -9,7 +9,7 @@ import connectDB from "./db/dbconnection.js"
 dotenv.config({
     path: './.env'
 })
-const PORT=process.env.PORT|| 8001
+const PORT=process.env.PORT|| 4001
 connectDB()
 .then(()=>{
     app.listen(PORT,()=>{
@@ -18,4 +18,5 @@ connectDB()
 })
 .catch((error) => {
     console.log("connection failed !!!",error);
+    process.exit(1);
 });

@@ -1,4 +1,5 @@
 
+
 import dns from "node:dns";
 
 dns.setServers(["8.8.8.8", "8.8.4.4"]);
@@ -16,7 +17,6 @@ const connectDB = async () => {
         if (!process.env.MONGO_URI) {
             throw new Error("MONGO_URI is not defined in the environment");
         }
-        console.log(process.env.MONGO_URI)
         const dbConnectionInstance = await mongoose.connect("mongodb+srv://login:login123@cluster0.mnfr8dr.mongodb.net/ecommerceDB?retryWrites=true&w=majority&appName=Cluster0", {
             dbName: DB_NAME,
             serverSelectionTimeoutMS: 10000,

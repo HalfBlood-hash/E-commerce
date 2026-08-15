@@ -78,24 +78,25 @@ const login= asyncHandler(async(req,res)=>{
      }
     
     if(!username)
-        throw ApiError(400,"Username is required")
+        throw new ApiError(400,"Username is required")
 
     const verifyedUser= await User.findOne({username:username.toLowerCase()})
 
-    if(!verifyedUser) throw ApiError(404,"User is not found with this username")
+    if(!verifyedUser) throw new ApiError(404,"User is not found with this username")
 
     const isPasswordCorrect= await verifyedUser.isPasswordCorrect(password)
-    if(!isPasswordCorrect) throw ApiError(401,"Password is incorrect")
+    if(!isPasswordCorrect) throw new ApiError(401,"Password is incorrect")
 
     const {refreshtoken,accesstoken}=await generateAccessTokenAndRefreshToken(verifyedUser._id)
 
     const loggedUser= await User.findById(verifyedUser._id).select(
-        "-password,-refreshtoken"
+        "-password -refreshtoken"
     )
 
     const options={
         httpOnly:true,
-        secure:true
+        secure: process.env.NODE_ENV === "production",
+        sameSite: process.env.NODE_ENV === "production" ? "none" : "lax"
     }
     return res
     .status(200)
@@ -107,5 +108,11 @@ const login= asyncHandler(async(req,res)=>{
 
 })
 
-export { registerUser ,login};
+const getCurrentUser = asyncHandler(async (req, res) => {
+    return res.status(200).json(
+        new ApiResponse(200, { user: req.user }, "Current user fetched successfully")
+    );
+});
+
+export { registerUser, login, getCurrentUser };
 

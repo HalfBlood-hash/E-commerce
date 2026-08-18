@@ -29,31 +29,33 @@ const generateAccessTokenAndRefreshToken=async(userId)=>{
 
 
 const registerUser = async (req, res) => {
-    console.log("1. Controller started");
+    // console.log("1. Controller started");
 
-    const { username, password, email } = req.body;
+    const { username, password, email ,role} = req.body;
     if([username,email,password].some((feild)=>feild?.trim()===""))
         {
             throw new ApiError(400," All Feilds are required ");
 
         }
 
-    console.log("2. Request body:", req.body);
+    // console.log("2. Request body:", req.body);
 
     const existedUser=await User.findOne({
         $or:[{username},{email}]
     })
-    console.log(existedUser)
+    // console.log(existedUser)
     if(existedUser)
         throw new ApiError(409,"Username or email is already existed")
 
-
+// role === "admin" → add role: "admin"
+// anything else → don't add role, so Mongoose uses its default "user"
     const user = await User.create({
         username:username.toLowerCase(),
         email,
-        password
+        password,
+        ...(role === "admin" && { role: "admin" })
     });
-    console.log("user: ",user)
+    // console.log("user: ",user)
     const createdUser= await User.findById(user._id).select(
         "-password -refreshtoken"
     )
@@ -132,5 +134,13 @@ const logout = asyncHandler(async (req, res) => {
         .json(new ApiResponse(200, {}, "User logged out successfully"));
 });
 
-export { registerUser, login, getCurrentUser, logout };
+const deleteAllUser =asyncHandler(async(req,res)=>{
+    console.log("deletealluser")
+    await User.deleteMany({})
+
+    res.status(200)
+    .json(new ApiResponse(200,{},"All user deleted succefully"))
+})
+
+export { registerUser, login, getCurrentUser, logout,deleteAllUser };
 

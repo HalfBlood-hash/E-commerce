@@ -31,6 +31,12 @@ const userSchema=new Schema({
         type:[String],
 
     },
+    role:{
+        type:String,
+        enum:["admin","user"],
+        default:"user"
+
+    },
     // when product database developed then we will integrate
     
     // orders:{

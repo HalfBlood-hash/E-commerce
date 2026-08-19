@@ -8,6 +8,7 @@ export default function Header() {
 
 
   const {user}=useSelector((state) => state.auth)
+  const {role}=useSelector((state) => state.auth)
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -29,6 +30,7 @@ export default function Header() {
               <NavLink to="/cart">Cart</NavLink>
             </li>
             <p>{user && user.username}</p>
+            <p>{role && role}</p>
             <li>
               {
                 user ? <button type="button" onClick={handleLogout}>Logout</button> : <NavLink to="/login">Login</NavLink>

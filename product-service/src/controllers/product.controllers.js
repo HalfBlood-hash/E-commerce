@@ -11,6 +11,7 @@ const getProducts = asyncHandler(async (req, res) => {
 });
 
 const createProduct = asyncHandler(async (req, res) => {
+    console.log(req.headers["x-user-role"])
     const { name, fullName, price, description } = req.body;
 
     const product = await Product.create({ name, fullName, price, description });

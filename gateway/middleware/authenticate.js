@@ -33,7 +33,8 @@ const authenticate = (req, res, next) => {
         req.headers["x-user-id"] = String(decoded._id);
         req.headers["x-user-email"] = decoded.email || "";
         req.headers["x-user-username"] = decoded.username || "";
-
+        req.headers["x-user-role"]=decoded.role || "";
+        console.log(req.user)
         return next();
     } catch (error) {
         return res.status(401).json({

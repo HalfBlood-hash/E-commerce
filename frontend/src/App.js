@@ -27,7 +27,11 @@ import Home from './pages/Home/Home';
 import Login from './pages/Login/Login';
 import NotFoundPage from './pages/NotFoundPage/NotFoundPage';
 import Register from './pages/RegisterPage/Register';
-import Cart from "./pages/Cart";
+import Cart from "./pages/Cart/Cart";
+import AdminRoutes from "./Global/AdminRoutes"
+import Admin from "./pages/AdminDashBoard/Admin"
+import Orders from "./pages/Orders/Orders";
+import Delivery from "./pages/Delivery/Delivery";
 
 function App() {
 
@@ -46,9 +50,17 @@ useEffect(()=>{
 
         <Route element={<ProtectedRoute/>}>
         <Route path='cart' element={<Cart/>}/>
+        <Route path="orders" element={<Orders/>}/>
         </Route>
 
-      
+     / Adming route 
+       
+        <Route element={<AdminRoutes/>}>
+          <Route path="admin" element={<Admin/>}/>
+          <Route  path="delivery" element={<Delivery/>}   />
+
+        </Route>
+
         <Route path='login' element={<Login/>}/>
         <Route path='register' element={<Register/>}/>
          <Route path="*" element={<NotFoundPage/>} /> 

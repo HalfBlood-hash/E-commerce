@@ -89,7 +89,8 @@ const authSlice = createSlice({
     user: null,
     loading: false,
     error: null,
-    authloading:false
+    authloading:false,
+    role:null
   },
   reducers: {},
 
@@ -101,6 +102,8 @@ const authSlice = createSlice({
       .addCase(getCurrentUser.fulfilled,(state,action)=>{
         state.authloading=false;
         state.user=action.payload.data.user
+        console.log(action.payload.data.user.role)
+        state.role=action.payload.data.user.role
       })
       .addCase(getCurrentUser.rejected,(state,action)=>{
         state.user=null;
